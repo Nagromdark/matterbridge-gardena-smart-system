@@ -48,7 +48,7 @@ If you prefer not to use OAuth2:
 2. Install the plugin:
 
    ```bash
-   npm install matterbridge-plugin-gardena
+   npm install matterbridge-gardena-smart-system
    ```
 
 3. Restart Matterbridge
@@ -89,7 +89,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
   },
   "platforms": [
     {
-      "platform": "matterbridge-plugin-gardena",
+      "platform": "matterbridge-gardena-smart-system",
       "name": "Gardena",
       "type": "DynamicPlatform",
       "apiKey": "YOUR_API_KEY_HERE",
@@ -225,7 +225,7 @@ Edit config.json:
 
 ```json
 {
-  "platform": "matterbridge-plugin-gardena",
+  "platform": "matterbridge-gardena-smart-system",
   "debug": true
 }
 ```
@@ -234,7 +234,7 @@ Edit config.json:
 
 ```json
 {
-  "platform": "matterbridge-plugin-gardena",
+  "platform": "matterbridge-gardena-smart-system",
   "systemId": "system-123456"
 }
 ```
@@ -301,8 +301,8 @@ After successful installation:
 
 ### Support Resources
 
-- [GitHub Issues](https://github.com/Nagromdark/matterbridge-plugin-gardena/issues)
-- [GitHub Discussions](https://github.com/Nagromdark/matterbridge-plugin-gardena/discussions)
+- [GitHub Issues](https://github.com/Nagromdark/matterbridge-gardena-smart-system/issues)
+- [GitHub Discussions](https://github.com/Nagromdark/matterbridge-gardena-smart-system/discussions)
 - [Gardena Support](https://www.gardena.com/support)
 - [Matterbridge Wiki](https://github.com/Luligu/matterbridge/wiki)
 
@@ -330,7 +330,7 @@ When reporting issues, please include:
 
 ```bash
 cd ~/.matterbridge/plugins
-npm uninstall matterbridge-plugin-gardena
+npm uninstall matterbridge-gardena-smart-system
 ```
 
 ### Manual Cleanup

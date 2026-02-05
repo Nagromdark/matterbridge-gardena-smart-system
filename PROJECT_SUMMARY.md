@@ -62,7 +62,7 @@ The Matterbridge Gardena Smart System Plugin has been successfully implemented a
 ## File Structure
 
 ```
-matterbridge-plugin-gardena/
+matterbridge-gardena-smart-system/
 ├── src/
 │   └── module.ts              # Main plugin implementation
 ├── test/
@@ -145,7 +145,7 @@ Snapshots:   0 total
 
 ```json
 {
-  "platform": "matterbridge-plugin-gardena",
+  "platform": "matterbridge-gardena-smart-system",
   "name": "Gardena",
   "type": "DynamicPlatform",
   "apiKey": "YOUR_GARDENA_API_KEY",

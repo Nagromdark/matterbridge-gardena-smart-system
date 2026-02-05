@@ -27,7 +27,7 @@ This plugin integrates **Gardena Smart System** devices with **Matterbridge**, e
 ### Via NPM
 
 ```bash
-npm install matterbridge-plugin-gardena
+npm install matterbridge-gardena-smart-system
 ```
 
 ## Configuration
@@ -216,9 +216,9 @@ Apache-2.0 © 2025-2026 Gardena Plugin Contributors
 
 ## Support
 
-- 📖 [Plugin Documentation](https://github.com/Nagromdark/matterbridge-plugin-gardena)
-- 🐛 [Report Issues](https://github.com/Nagromdark/matterbridge-plugin-gardena/issues)
-- 💬 [Discussions](https://github.com/Nagromdark/matterbridge-plugin-gardena/discussions)
+- 📖 [Plugin Documentation](https://github.com/Nagromdark/matterbridge-gardena-smart-system)
+- 🐛 [Report Issues](https://github.com/Nagromdark/matterbridge-gardena-smart-system/issues)
+- 💬 [Discussions](https://github.com/Nagromdark/matterbridge-gardena-smart-system/discussions)
 
 ## Disclaimer
 

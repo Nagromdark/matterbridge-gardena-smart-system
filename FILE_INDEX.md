@@ -377,9 +377,9 @@ README.md (Start here!)
 
 ## Contact & Support
 
-- **GitHub**: github.com/Nagromdark/matterbridge-plugin-gardena
-- **Issues**: github.com/Nagromdark/matterbridge-plugin-gardena/issues
-- **Discussions**: github.com/Nagromdark/matterbridge-plugin-gardena/discussions
+- **GitHub**: github.com/Nagromdark/matterbridge-gardena-smart-system
+- **Issues**: github.com/Nagromdark/matterbridge-gardena-smart-system/issues
+- **Discussions**: github.com/Nagromdark/matterbridge-gardena-smart-system/discussions
 
 ---
 

@@ -12,8 +12,8 @@ Be respectful and professional. We welcome contributions from developers of all 
 
 ```bash
 # Fork the repository on GitHub
-git clone https://github.com/YOUR_USERNAME/matterbridge-plugin-gardena.git
-cd matterbridge-plugin-gardena
+git clone https://github.com/YOUR_USERNAME/matterbridge-gardena-smart-system.git
+cd matterbridge-gardena-smart-system
 ```
 
 ### 2. Install Dependencies
@@ -348,7 +348,7 @@ npm run lint
 
 ```json
 {
-  "platform": "matterbridge-plugin-gardena",
+  "platform": "matterbridge-gardena-smart-system",
   "debug": true
 }
 ```
