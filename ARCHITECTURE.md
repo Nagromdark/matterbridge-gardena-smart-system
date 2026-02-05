@@ -37,6 +37,7 @@ The Gardena Smart System Plugin for Matterbridge is a dynamic platform that inte
 **Extends**: `MatterbridgeDynamicPlatform`
 
 **Responsibilities**:
+
 - Platform lifecycle management (start, configure, shutdown)
 - Device discovery and registration
 - Device endpoint creation and management
@@ -44,6 +45,7 @@ The Gardena Smart System Plugin for Matterbridge is a dynamic platform that inte
 - Error handling and logging
 
 **Key Methods**:
+
 ```typescript
 - constructor()        // Initialize platform
 - onStart()           // Start device discovery
@@ -58,12 +60,14 @@ The Gardena Smart System Plugin for Matterbridge is a dynamic platform that inte
 **File**: `src/module.ts`
 
 **Responsibilities**:
+
 - API communication with Gardena servers
 - Device state management
 - Real-time updates via WebSocket
 - Device command execution
 
 **Key Methods**:
+
 ```typescript
 - constructor()       // Initialize with API key
 - fetchDevices()      // Discover all devices
@@ -74,6 +78,7 @@ The Gardena Smart System Plugin for Matterbridge is a dynamic platform that inte
 ```
 
 **Data Structures**:
+
 ```typescript
 interface GardenaConfig {
   apiKey: string;         // Required API key
@@ -97,12 +102,12 @@ interface GardenaDevice {
 
 The plugin maps Gardena device types to Matter device types:
 
-| Gardena Type | Matter Type | Control | Features |
-|---|---|---|---|
-| IRRIGATION_CONTROLLER | On/Off Outlet | on/off | Flow control |
-| SOIL_HUMIDITY_SENSOR | Contact Sensor | read-only | Battery monitoring |
-| WATER_VALVE | On/Off Light | on/off | Open/close valve |
-| ROBOTIC_MOWER | On/Off Outlet | on/off | Start/stop, battery |
+| Gardena Type          | Matter Type    | Control   | Features            |
+| --------------------- | -------------- | --------- | ------------------- |
+| IRRIGATION_CONTROLLER | On/Off Outlet  | on/off    | Flow control        |
+| SOIL_HUMIDITY_SENSOR  | Contact Sensor | read-only | Battery monitoring  |
+| WATER_VALVE           | On/Off Light   | on/off    | Open/close valve    |
+| ROBOTIC_MOWER         | On/Off Outlet  | on/off    | Start/stop, battery |
 
 ## Device Endpoint Creation Flow
 

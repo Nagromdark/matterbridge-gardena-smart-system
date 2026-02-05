@@ -36,7 +36,7 @@ This is the first stable release of the Matterbridge Gardena Smart System Plugin
 📊 Real-time battery level updates  
 🔄 WebSocket for instant status updates  
 ✅ Matter Protocol compliance  
-🏠 Smart Home Ecosystem compatibility  
+🏠 Smart Home Ecosystem compatibility
 
 #### Technical Stack
 
@@ -50,7 +50,6 @@ This is the first stable release of the Matterbridge Gardena Smart System Plugin
 ---
 
 **Note**: This initial release establishes the foundation for Gardena Smart System integration with Matterbridge. Future releases will include additional features such as advanced scheduling, custom automation rules, and enhanced sensor support.
-
 
 ### Changed
 

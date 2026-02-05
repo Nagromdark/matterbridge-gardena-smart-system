@@ -10,7 +10,7 @@ The Matterbridge Gardena Smart System Plugin has been successfully implemented a
 
 - **GardenaPlatform Class**: Full-featured dynamic platform extending MatterbridgeDynamicPlatform
 - **GardenaAPI Class**: Complete API client for Gardena Smart System integration
-- **Device Support**: 
+- **Device Support**:
   - Smart Irrigation Controllers
   - Soil Humidity Sensors
   - Smart Water Valves
@@ -92,18 +92,18 @@ matterbridge-plugin-gardena/
 
 ## Features Summary
 
-| Feature | Status | Details |
-|---------|--------|---------|
-| Smart Irrigation Control | ✅ | On/off control via on/off outlet |
-| Soil Humidity Monitoring | ✅ | Contact sensor support |
-| Water Valve Automation | ✅ | On/off valve control |
-| Lawn Mower Management | ✅ | Start/stop with battery monitoring |
-| Real-time Updates | ✅ | WebSocket support |
-| Battery Monitoring | ✅ | Battery level tracking |
-| Error Handling | ✅ | Comprehensive error recovery |
-| Logging | ✅ | Detailed logging system |
-| Configuration | ✅ | Schema-validated configuration |
-| Testing | ✅ | 11 comprehensive tests |
+| Feature                  | Status | Details                            |
+| ------------------------ | ------ | ---------------------------------- |
+| Smart Irrigation Control | ✅     | On/off control via on/off outlet   |
+| Soil Humidity Monitoring | ✅     | Contact sensor support             |
+| Water Valve Automation   | ✅     | On/off valve control               |
+| Lawn Mower Management    | ✅     | Start/stop with battery monitoring |
+| Real-time Updates        | ✅     | WebSocket support                  |
+| Battery Monitoring       | ✅     | Battery level tracking             |
+| Error Handling           | ✅     | Comprehensive error recovery       |
+| Logging                  | ✅     | Detailed logging system            |
+| Configuration            | ✅     | Schema-validated configuration     |
+| Testing                  | ✅     | 11 comprehensive tests             |
 
 ## Test Results
 
@@ -168,12 +168,12 @@ Snapshots:   0 total
 
 ### Supported Devices
 
-| Type | Matter Device | Commands |
-|------|---------------|----------|
-| Irrigation Controller | On/Off Outlet | on, off |
-| Humidity Sensor | Contact Sensor | (read-only) |
-| Water Valve | On/Off Light | on, off |
-| Lawn Mower | On/Off Outlet | on, off |
+| Type                  | Matter Device  | Commands    |
+| --------------------- | -------------- | ----------- |
+| Irrigation Controller | On/Off Outlet  | on, off     |
+| Humidity Sensor       | Contact Sensor | (read-only) |
+| Water Valve           | On/Off Light   | on, off     |
+| Lawn Mower            | On/Off Outlet  | on, off     |
 
 ## Future Enhancement Possibilities
 
@@ -212,6 +212,7 @@ Snapshots:   0 total
 ## Browser Compatibility
 
 The plugin is backend-only but works with:
+
 - ✅ Apple HomeKit (iOS 16+)
 - ✅ Google Home
 - ✅ Amazon Alexa (with Matter)

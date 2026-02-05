@@ -40,11 +40,13 @@ If you prefer not to use OAuth2:
 ### Via NPM (Manual)
 
 1. Navigate to your Matterbridge directory:
+
    ```bash
    cd ~/.matterbridge/plugins
    ```
 
 2. Install the plugin:
+
    ```bash
    npm install matterbridge-plugin-gardena
    ```
@@ -165,6 +167,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
 **Problem**: Plugin doesn't show in Matterbridge Web UI
 
 **Solutions**:
+
 - Restart Matterbridge: `systemctl restart matterbridge`
 - Check Matterbridge version: `matterbridge --version` (must be 3.4.0+)
 - Check log for errors: Look in Logs section
@@ -174,6 +177,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
 **Problem**: "API key is required" or "Invalid API key" error
 
 **Solutions**:
+
 - Verify your Gardena API key
 - Try regenerating the key in Gardena portal
 - Check for extra spaces in the key
@@ -184,6 +188,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
 **Problem**: Plugin shows no Gardena devices
 
 **Solutions**:
+
 - Verify Gardena devices are powered on
 - Check Gardena app - devices visible there?
 - Ensure WiFi connectivity
@@ -195,6 +200,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
 **Problem**: Real-time updates not working
 
 **Solutions**:
+
 - Check internet connection
 - Verify firewall allows WebSocket connections
 - Check Matterbridge logs
@@ -205,6 +211,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
 **Problem**: Can't control a specific device
 
 **Solutions**:
+
 - Verify device is powered and connected
 - Check battery level (for wireless devices)
 - Restart the device
@@ -215,6 +222,7 @@ Edit your Matterbridge configuration file (`~/.matterbridge/config.json`):
 ### Enable Debug Logging
 
 Edit config.json:
+
 ```json
 {
   "platform": "matterbridge-plugin-gardena",
@@ -234,6 +242,7 @@ Edit config.json:
 ### Custom Device Name
 
 Not directly supported in config, but can be renamed via:
+
 - Matterbridge Web UI
 - Smart Home app (HomeKit, etc.)
 
@@ -285,11 +294,13 @@ After successful installation:
 ## Getting Help
 
 ### Documentation
+
 - [README.md](README.md) - Full feature documentation
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Technical architecture
 - [API Documentation](#) - API reference (coming soon)
 
 ### Support Resources
+
 - [GitHub Issues](https://github.com/Nagromdark/matterbridge-plugin-gardena/issues)
 - [GitHub Discussions](https://github.com/Nagromdark/matterbridge-plugin-gardena/discussions)
 - [Gardena Support](https://www.gardena.com/support)
@@ -298,6 +309,7 @@ After successful installation:
 ### Reporting Issues
 
 When reporting issues, please include:
+
 - Matterbridge version
 - Plugin version
 - Node.js version
@@ -324,6 +336,7 @@ npm uninstall matterbridge-plugin-gardena
 ### Manual Cleanup
 
 Remove plugin directory:
+
 ```bash
 rm -rf ~/.matterbridge/plugins/gardena
 ```

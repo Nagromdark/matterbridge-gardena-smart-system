@@ -39,6 +39,7 @@ npm run test:watch
 ### Making Changes
 
 1. **Create a feature branch**:
+
    ```bash
    git checkout -b feature/my-feature
    ```
@@ -48,6 +49,7 @@ npm run test:watch
    - Write/update tests in `test/` directory
 
 3. **Verify your changes**:
+
    ```bash
    npm run build
    npm run lint:fix
@@ -56,6 +58,7 @@ npm run test:watch
    ```
 
 4. **Commit your changes**:
+
    ```bash
    git add .
    git commit -m "Add my feature"
@@ -98,6 +101,7 @@ npm run test:coverage
 ### Adding a New Device Type
 
 1. **Update `GardenaDevice` interface** in `src/module.ts`:
+
    ```typescript
    interface GardenaDevice {
      // Add new device type
@@ -106,6 +110,7 @@ npm run test:coverage
    ```
 
 2. **Add mock device** in `GardenaAPI.fetchDevices()`:
+
    ```typescript
    {
      id: 'new-device-1',
@@ -118,6 +123,7 @@ npm run test:coverage
    ```
 
 3. **Add device registration logic** in `registerGardenaDevice()`:
+
    ```typescript
    case 'new-type':
      endpoint = new MatterbridgeEndpoint(...)
@@ -135,6 +141,7 @@ npm run test:coverage
 ### Adding a New Command
 
 1. **Add handler in `registerGardenaDevice()`**:
+
    ```typescript
    .addCommandHandler('newCommand', async (_data) => {
      this.log.info(`Executing newCommand on ${device.name}`);
@@ -159,10 +166,10 @@ npm run test:coverage
 it('should do something specific', async () => {
   // Arrange: Set up test conditions
   jest.clearAllMocks();
-  
+
   // Act: Perform the action
   const result = await functionUnderTest();
-  
+
   // Assert: Verify the result
   expect(result).toBe(expectedValue);
   expect(mockLog.info).toHaveBeenCalledWith(expectedMessage);
@@ -408,6 +415,7 @@ Releases are managed by maintainers:
 ## FAQ
 
 **Q: How do I run a specific test?**
+
 ```bash
 npm test -- --testNamePattern="device discovery"
 ```

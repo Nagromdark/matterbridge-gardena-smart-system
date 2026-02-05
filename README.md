@@ -18,12 +18,14 @@ This plugin integrates **Gardena Smart System** devices with **Matterbridge**, e
 ## Installation
 
 ### Via Matterbridge UI
+
 1. Open Matterbridge web interface
 2. Navigate to Plugins section
 3. Search for "Gardena"
 4. Install the plugin
 
 ### Via NPM
+
 ```bash
 npm install matterbridge-plugin-gardena
 ```
@@ -31,6 +33,7 @@ npm install matterbridge-plugin-gardena
 ## Configuration
 
 ### API Key Setup
+
 To use this plugin, you need a Gardena API key:
 
 1. Go to [Gardena Smart System](https://www.gardena.com/)
@@ -39,6 +42,7 @@ To use this plugin, you need a Gardena API key:
 4. Generate an authentication token
 
 ### Plugin Configuration
+
 Add the following to your Matterbridge configuration file:
 
 ```json
@@ -56,12 +60,12 @@ Add the following to your Matterbridge configuration file:
 
 ### Device Types
 
-| Device Type | Matter Representation | Features |
-|---|---|---|
-| Smart Irrigation Controller | On/Off Outlet | Turn irrigation on/off, schedule management |
-| Soil Humidity Sensor | Contact Sensor | Real-time moisture monitoring, battery level |
-| Smart Water Valve | On/Off Light | Valve control, water flow automation |
-| Robotic Lawn Mower | On/Off Outlet | Start/stop mowing, battery monitoring |
+| Device Type                 | Matter Representation | Features                                     |
+| --------------------------- | --------------------- | -------------------------------------------- |
+| Smart Irrigation Controller | On/Off Outlet         | Turn irrigation on/off, schedule management  |
+| Soil Humidity Sensor        | Contact Sensor        | Real-time moisture monitoring, battery level |
+| Smart Water Valve           | On/Off Light          | Valve control, water flow automation         |
+| Robotic Lawn Mower          | On/Off Outlet         | Start/stop mowing, battery monitoring        |
 
 ## Usage
 
@@ -73,6 +77,7 @@ Once configured and started, the plugin will:
 4. **Allow control** through Matterbridge and connected ecosystems
 
 ### Example Voice Commands
+
 - "Turn on the irrigation"
 - "Close the water valve"
 - "How much battery does the soil sensor have?"
@@ -122,6 +127,7 @@ npm run test:verbose
 ```
 
 Tests include:
+
 - ✅ Plugin initialization and version checking
 - ✅ Device discovery and registration
 - ✅ Command handlers for all device types
@@ -161,17 +167,20 @@ npm run format:check
 ## Troubleshooting
 
 ### No devices discovered
+
 - ✓ Verify your API key is correct
 - ✓ Check internet connection
 - ✓ Ensure Gardena devices are powered and connected to WiFi
 - ✓ Review logs for API errors
 
 ### WebSocket connection fails
+
 - ✓ Check firewall settings
 - ✓ Verify API endpoint availability
 - ✓ Review Matterbridge logs
 
 ### Battery level not updating
+
 - ✓ Ensure battery sensors are properly configured
 - ✓ Check if devices are actually transmitting battery data
 - ✓ Verify WebSocket connection is active
@@ -198,7 +207,7 @@ Contributions are welcome! Please:
 1. Fork the repository
 2. Create a feature branch
 3. Add tests for new functionality
-4. Ensure code passes linting and tests  
+4. Ensure code passes linting and tests
 5. Submit a pull request
 
 ## License
@@ -218,7 +227,6 @@ This plugin is not affiliated with Husqvarna Group or Gardena. Gardena is a regi
 ---
 
 **Tip**: Start with a single device to test the integration before adding multiple devices.
-
 
 - Monitor your GitHub Actions usage in your account settings.
 - Consider disabling some workflows or reducing the OS/Node.js version matrix.
