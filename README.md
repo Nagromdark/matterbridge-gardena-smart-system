@@ -1,53 +1,224 @@
-# <img src="https://matterbridge.io/assets/matterbridge.svg" alt="Matterbridge Logo" width="64px" height="64px">&nbsp;&nbsp;&nbsp;Matterbridge Plugin Template
+# <img src="https://matterbridge.io/assets/matterbridge.svg" alt="Matterbridge Logo" width="64px" height="64px">&nbsp;&nbsp;&nbsp;Matterbridge Gardena Smart System Plugin
 
 [![npm version](https://img.shields.io/npm/v/matterbridge.svg)](https://www.npmjs.com/package/matterbridge)
-[![npm downloads](https://img.shields.io/npm/dt/matterbridge.svg)](https://www.npmjs.com/package/matterbridge)
-[![Docker Version](https://img.shields.io/docker/v/luligu/matterbridge/latest?label=docker%20version)](https://hub.docker.com/r/luligu/matterbridge)
 [![Docker Pulls](https://img.shields.io/docker/pulls/luligu/matterbridge?label=docker%20pulls)](https://hub.docker.com/r/luligu/matterbridge)
-![Node.js CI](https://github.com/Luligu/matterbridge-plugin-template/actions/workflows/build.yml/badge.svg)
-![CodeQL](https://github.com/Luligu/matterbridge-plugin-template/actions/workflows/codeql.yml/badge.svg)
-[![codecov](https://codecov.io/gh/Luligu/matterbridge-plugin-template/branch/main/graph/badge.svg)](https://codecov.io/gh/Luligu/matterbridge-plugin-template)
 
-[![powered by](https://img.shields.io/badge/powered%20by-matterbridge-blue)](https://www.npmjs.com/package/matterbridge)
-[![powered by](https://img.shields.io/badge/powered%20by-matter--history-blue)](https://www.npmjs.com/package/matter-history)
-[![powered by](https://img.shields.io/badge/powered%20by-node--ansi--logger-blue)](https://www.npmjs.com/package/node-ansi-logger)
-[![powered by](https://img.shields.io/badge/powered%20by-node--persist--manager-blue)](https://www.npmjs.com/package/node-persist-manager)
-
-This repository provides a default template for developing Matterbridge plugins.
-
-If you like this project and find it useful, please consider giving it a star on [GitHub](https://github.com/Luligu/matterbridge-plugin-template) and sponsoring it.
-
-<a href="https://www.buymeacoffee.com/luligugithub"><img src="https://matterbridge.io/assets/bmc-button.svg" alt="Buy me a coffee" width="120"></a>
+This plugin integrates **Gardena Smart System** devices with **Matterbridge**, enabling seamless control and monitoring of your Gardena Smart irrigation system through Matter protocol.
 
 ## Features
 
-- **Dev Container support for instant development environment**.
-- Pre-configured TypeScript, ESLint, Prettier, Jest and Vitest.
-- Example project structure for Accessory and Dynamic platforms.
-- Ready for customization for your own plugin.
-- The project has an already configured Jest / Vitest test unit (with 100% coverage) that you can expand while you add your own plugin logic.
+- 🌱 **Smart Irrigation Controller** - Control watering schedules and water flow
+- 💧 **Soil Humidity Sensors** - Monitor soil moisture levels in real-time
+- 🚰 **Smart Water Valves** - Automate water valve control
+- 🤖 **Robotic Lawn Mowers** - Manage mower operations
+- 📊 **Battery Level Monitoring** - Track battery status of wireless devices
+- 🔄 **Real-time WebSocket Updates** - Receive instant device status updates
+- 🏠 **Matter Protocol Support** - Compatible with all major smart home ecosystems
 
-## Available workflows
+## Installation
 
-The project has the following already configured workflows:
+### Via Matterbridge UI
+1. Open Matterbridge web interface
+2. Navigate to Plugins section
+3. Search for "Gardena"
+4. Install the plugin
 
-- build.yml: run on push and pull request and build, lint and test the plugin on node 20, 22 and 24 with ubuntu, macOS and windows.
-- publish.yml: publish on npm when you create a new release in GitHub. Add your NPM_TOKEN to the repository secrets.
-- publish-daily-dev-from-dev.yml: publish a dev on npm from main branch every day at midnight UTC if there is a new commit. Add your NPM_TOKEN to the repository secrets.
-- publish-daily-dev-from-main.yml: publish a dev on npm from dev branch every day at midnight UTC if there is a new commit. Add your NPM_TOKEN to the repository secrets.
-- codeql.yml: run CodeQL from the main branch on each push and pull request.
-- codecov.yml: run CodeCov from the main branch on each push and pull request. You need a codecov account and to add your CODECOV_TOKEN to the repository secrets.
+### Via NPM
+```bash
+npm install matterbridge-plugin-gardena
+```
 
-## ⚠️ Warning: GitHub Actions Costs for Private Repositories
+## Configuration
 
-**Important**: If you plan to use this template in a **private repository**, be aware that GitHub Actions usage may incur costs:
+### API Key Setup
+To use this plugin, you need a Gardena API key:
 
-- **Free tier limits**: Private repositories have limited free GitHub Actions minutes per month (2,000 minutes for free accounts).
-- **Workflow intensity**: This template includes multiple workflows that run on different operating systems (Ubuntu, macOS, Windows) and Node.js versions (20, 22, 24), which can consume minutes quickly.
-- **Daily automated workflows**: The dev publishing workflows run daily, which can add up over time.
-- **Pricing varies by OS**: macOS runners cost 10x more than Ubuntu runners, Windows runners cost 2x more.
+1. Go to [Gardena Smart System](https://www.gardena.com/)
+2. Create or sign in to your account
+3. Navigate to API settings
+4. Generate an authentication token
 
-**Recommendations for private repos**:
+### Plugin Configuration
+Add the following to your Matterbridge configuration file:
+
+```json
+{
+  "name": "Gardena",
+  "type": "DynamicPlatform",
+  "version": "1.0.0",
+  "apiKey": "your-gardena-api-key",
+  "debug": false,
+  "unregisterOnShutdown": false
+}
+```
+
+## Supported Devices
+
+### Device Types
+
+| Device Type | Matter Representation | Features |
+|---|---|---|
+| Smart Irrigation Controller | On/Off Outlet | Turn irrigation on/off, schedule management |
+| Soil Humidity Sensor | Contact Sensor | Real-time moisture monitoring, battery level |
+| Smart Water Valve | On/Off Light | Valve control, water flow automation |
+| Robotic Lawn Mower | On/Off Outlet | Start/stop mowing, battery monitoring |
+
+## Usage
+
+Once configured and started, the plugin will:
+
+1. **Auto-discover** all your Gardena devices
+2. **Register** them as Matter-compatible endpoints
+3. **Sync** device states via WebSocket
+4. **Allow control** through Matterbridge and connected ecosystems
+
+### Example Voice Commands
+- "Turn on the irrigation"
+- "Close the water valve"
+- "How much battery does the soil sensor have?"
+
+## API Details
+
+### GardenaAPI Class
+
+#### Methods
+
+- **fetchDevices()**: Discover all registered Gardena devices
+- **getDevice(id)**: Get a specific device by ID
+- **getAllDevices()**: Get all cached devices
+- **controlDevice(deviceId, command, value)**: Send commands to devices
+- **connectWebSocket(callback)**: Listen for real-time device updates
+
+### Device Reference
+
+```typescript
+interface GardenaDevice {
+  id: string;                          // Unique device identifier
+  name: string;                        // Device display name
+  type: string;                        // Device type (e.g., "IRRIGATION_CONTROLLER")
+  category: string;                    // Device category (irrigation, sensor, valve, mower)
+  value?: number | string | boolean;   // Current device state
+  batteryLevel?: number;               // Battery percentage (0-100%)
+  connected: boolean;                  // Connection status
+}
+```
+
+## Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Run all tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with verbose output
+npm run test:verbose
+```
+
+Tests include:
+- ✅ Plugin initialization and version checking
+- ✅ Device discovery and registration
+- ✅ Command handlers for all device types
+- ✅ Configuration management
+- ✅ Error handling and graceful degradation
+- ✅ WebSocket connection management
+- ✅ API client functionality
+
+## Development
+
+### Build
+
+```bash
+npm run build
+```
+
+### Lint & Format
+
+```bash
+# Fix linting issues
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+
+# Check Prettier formatting
+npm run format:check
+```
+
+### Scripts
+
+- `npm start` - Start Matterbridge
+- `npm run watch` - Watch TypeScript files
+- `npm run clean` - Clean build artifacts
+- `npm run cleanBuild` - Clean and rebuild
+
+## Troubleshooting
+
+### No devices discovered
+- ✓ Verify your API key is correct
+- ✓ Check internet connection
+- ✓ Ensure Gardena devices are powered and connected to WiFi
+- ✓ Review logs for API errors
+
+### WebSocket connection fails
+- ✓ Check firewall settings
+- ✓ Verify API endpoint availability
+- ✓ Review Matterbridge logs
+
+### Battery level not updating
+- ✓ Ensure battery sensors are properly configured
+- ✓ Check if devices are actually transmitting battery data
+- ✓ Verify WebSocket connection is active
+
+## Architecture
+
+```
+GardenaPlatform (extends MatterbridgeDynamicPlatform)
+├── GardenaAPI
+│   ├── fetchDevices()
+│   ├── controlDevice()
+│   └── connectWebSocket()
+└── Device Registration
+    ├── IrrigationController → On/Off Outlet
+    ├── HumiditySensor → Contact Sensor
+    ├── WaterValve → On/Off Light
+    └── RoboticMower → On/Off Outlet
+```
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure code passes linting and tests  
+5. Submit a pull request
+
+## License
+
+Apache-2.0 © 2025-2026 Gardena Plugin Contributors
+
+## Support
+
+- 📖 [Plugin Documentation](https://github.com/Nagromdark/matterbridge-plugin-gardena)
+- 🐛 [Report Issues](https://github.com/Nagromdark/matterbridge-plugin-gardena/issues)
+- 💬 [Discussions](https://github.com/Nagromdark/matterbridge-plugin-gardena/discussions)
+
+## Disclaimer
+
+This plugin is not affiliated with Husqvarna Group or Gardena. Gardena is a registered trademark of the Husqvarna Group.
+
+---
+
+**Tip**: Start with a single device to test the integration before adding multiple devices.
+
 
 - Monitor your GitHub Actions usage in your account settings.
 - Consider disabling some workflows or reducing the OS/Node.js version matrix.

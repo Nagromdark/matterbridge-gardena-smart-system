@@ -1,9 +1,9 @@
 {
-  "name": "matterbridge-plugin-template",
-  "version": "1.0.7",
-  "description": "Matterbridge Template Plugin",
+  "name": "matterbridge-plugin-gardena",
+  "version": "1.0.0",
+  "description": "Matterbridge Gardena Smart System Integration Plugin",
   "author": "https://github.com/Luligu",
-  "homepage": "https://www.npmjs.com/package/matterbridge-plugin-template",
+  "homepage": "https://www.npmjs.com/package/matterbridge-plugin-gardena",
   "license": "Apache-2.0",
   "type": "module",
   "main": "dist/module.js",
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Luligu/matterbridge-plugin-template.git"
+    "url": "git+https://github.com/Nagromdark/matterbridge-plugin-gardena.git"
   },
   "bugs": {
-    "url": "https://github.com/Luligu/matterbridge-plugin-template/issues"
+    "url": "https://github.com/Nagromdark/matterbridge-plugin-gardena/issues"
   },
   "funding": {
     "type": "buymeacoffee",

@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Matterbridge Gardena Smart System Plugin Configuration",
+  "description": "Configuration schema for the Gardena Smart System integration plugin",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Plugin Name",
+      "description": "The name of the plugin",
+      "default": "Gardena"
+    },
+    "type": {
+      "type": "string",
+      "title": "Platform Type",
+      "description": "The type of platform (DynamicPlatform)",
+      "enum": ["DynamicPlatform"],
+      "default": "DynamicPlatform"
+    },
+    "version": {
+      "type": "string",
+      "title": "Plugin Version",
+      "description": "The version of the plugin",
+      "default": "1.0.0"
+    },
+    "apiKey": {
+      "type": "string",
+      "title": "Gardena API Key",
+      "description": "Your Gardena Smart System API authentication token. Get it from https://www.gardena.com/",
+      "minLength": 1
+    },
+    "email": {
+      "type": "string",
+      "title": "Email",
+      "description": "Your Gardena account email (optional)",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "title": "Password",
+      "description": "Your Gardena account password (optional, use API key instead)",
+      "minLength": 1
+    },
+    "systemId": {
+      "type": "string",
+      "title": "System ID",
+      "description": "Optional specific system ID to filter devices"
+    },
+    "debug": {
+      "type": "boolean",
+      "title": "Debug Mode",
+      "description": "Enable debug logging",
+      "default": false
+    },
+    "unregisterOnShutdown": {
+      "type": "boolean",
+      "title": "Unregister on Shutdown",
+      "description": "Unregister all devices when plugin shuts down",
+      "default": false
+    }
+  },
+  "required": ["name", "type", "apiKey"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "name": "Gardena",
+      "type": "DynamicPlatform",
+      "version": "1.0.0",
+      "apiKey": "your-api-key-here",
+      "debug": false,
+      "unregisterOnShutdown": false
+    }
+  ]
+}

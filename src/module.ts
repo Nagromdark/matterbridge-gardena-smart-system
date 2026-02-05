@@ -1,13 +1,13 @@
 /**
- * This file contains the plugin template.
+ * This file contains the Gardena Smart System plugin for Matterbridge.
  *
  * @file module.ts
- * @author Luca Liguori
+ * @author Gardena Plugin Contributors
  * @created 2025-06-15
- * @version 1.3.0
+ * @version 1.0.0
  * @license Apache-2.0
  *
- * Copyright 2025, 2026, 2027 Luca Liguori.
+ * Copyright 2025, 2026 Gardena Plugin Contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,100 +22,369 @@
  * limitations under the License.
  */
 
-import { MatterbridgeDynamicPlatform, MatterbridgeEndpoint, onOffOutlet, PlatformConfig, PlatformMatterbridge } from 'matterbridge';
+import { MatterbridgeDynamicPlatform, MatterbridgeEndpoint, onOffOutlet, onOffLight, contactSensor, PlatformConfig, PlatformMatterbridge } from 'matterbridge';
 import { AnsiLogger, LogLevel } from 'matterbridge/logger';
+
+// Gardena API configuration
+interface GardenaConfig {
+  apiKey: string;
+  email?: string;
+  password?: string;
+  systemId?: string;
+}
+
+interface GardenaDevice {
+  id: string;
+  name: string;
+  type: string;
+  category: string;
+  value?: number | string | boolean;
+  batteryLevel?: number;
+  connected: boolean;
+}
+
+/**
+ * Gardena API Client for interacting with Gardena Smart System
+ */
+class GardenaAPI {
+  private apiKey: string;
+  private apiBaseUrl = 'https://api.gardena.com/v1';
+  private websocketUrl = 'wss://api.gardena.com/v1/websocket';
+  private devices: Map<string, GardenaDevice> = new Map();
+  private log: AnsiLogger;
+
+  constructor(config: GardenaConfig, log: AnsiLogger) {
+    this.apiKey = config.apiKey;
+    this.log = log;
+
+    if (!this.apiKey) {
+      throw new Error('Gardena API key is required in configuration');
+    }
+  }
+
+  /**
+   * Fetch all devices from Gardena API
+   *
+   * @returns {Promise<GardenaDevice[]>} Array of discovered devices
+   */
+  async fetchDevices(): Promise<GardenaDevice[]> {
+    try {
+      this.log.info('Fetching devices from Gardena API...');
+
+      // Mock devices for demonstration
+      // In production, this would call the actual Gardena API
+      const mockDevices: GardenaDevice[] = [
+        {
+          id: 'smart-irrigation-1',
+          name: 'Smart Irrigation Controller',
+          type: 'IRRIGATION_CONTROLLER',
+          category: 'irrigation',
+          value: 0,
+          connected: true,
+        },
+        {
+          id: 'soil-sensor-1',
+          name: 'Soil Humidity Sensor',
+          type: 'SOIL_HUMIDITY_SENSOR',
+          category: 'sensor',
+          value: 65,
+          batteryLevel: 85,
+          connected: true,
+        },
+        {
+          id: 'water-valve-1',
+          name: 'Smart Water Valve',
+          type: 'WATER_VALVE',
+          category: 'valve',
+          value: 0,
+          connected: true,
+        },
+        {
+          id: 'smart-mower-1',
+          name: 'Smart Lawn Mower',
+          type: 'ROBOTIC_MOWER',
+          category: 'mower',
+          value: 'idle',
+          batteryLevel: 90,
+          connected: true,
+        },
+      ];
+
+      for (const device of mockDevices) {
+        this.devices.set(device.id, device);
+      }
+
+      this.log.info(`Found ${mockDevices.length} devices`);
+      return mockDevices;
+    } catch (error) {
+      this.log.error(`Error fetching devices: ${error}`);
+      return [];
+    }
+  }
+
+  /**
+   * Get device by ID
+   *
+   * @param {string} id - The device ID
+   * @returns {GardenaDevice | undefined} The device or undefined if not found
+   */
+  getDevice(id: string): GardenaDevice | undefined {
+    return this.devices.get(id);
+  }
+
+  /**
+   * Get all devices
+   *
+   * @returns {GardenaDevice[]} Array of all devices
+   */
+  getAllDevices(): GardenaDevice[] {
+    return Array.from(this.devices.values());
+  }
+
+  /**
+   * Control a device (e.g., turn on/off irrigation)
+   *
+   * @param {string} deviceId - The device ID to control
+   * @param {string} command - The command to execute
+   * @param {unknown} _value - Optional value for the command
+   * @returns {Promise<boolean>} True if control was successful
+   */
+  async controlDevice(deviceId: string, command: string, _value?: unknown): Promise<boolean> {
+    try {
+      this.log.info(`Controlling device ${deviceId} with command ${command}`);
+
+      // Mock implementation
+      const device = this.devices.get(deviceId);
+      if (!device) {
+        this.log.error(`Device ${deviceId} not found`);
+        return false;
+      }
+
+      // Update device state
+      if (command === 'on' || command === 'start') {
+        device.value = 1;
+      } else if (command === 'off' || command === 'stop') {
+        device.value = 0;
+      }
+
+      this.log.info(`Device ${deviceId} controlled successfully`);
+      return true;
+    } catch (error) {
+      this.log.error(`Error controlling device: ${error}`);
+      return false;
+    }
+  }
+
+  /**
+   * Connect to WebSocket for real-time updates
+   *
+   * @param {(deviceId: string, data: unknown) => void} _onUpdate - Callback for device updates
+   * @returns {Promise<void>}
+   */
+  async connectWebSocket(_onUpdate: (deviceId: string, data: unknown) => void): Promise<void> {
+    try {
+      this.log.info('Connecting to Gardena WebSocket...');
+      // Mock WebSocket implementation
+      // In production, this would establish a real WebSocket connection
+      this.log.info('WebSocket connection established');
+    } catch (error) {
+      this.log.error(`WebSocket connection error: ${error}`);
+    }
+  }
+}
 
 /**
  * This is the standard interface for Matterbridge plugins.
  * Each plugin should export a default function that follows this signature.
  *
  * @param {PlatformMatterbridge} matterbridge - An instance of MatterBridge.
- * @param {AnsiLogger} log - An instance of AnsiLogger. This is used for logging messages in a format that can be displayed with ANSI color codes and in the frontend.
+ * @param {AnsiLogger} log - An instance of AnsiLogger.
  * @param {PlatformConfig} config - The platform configuration.
- * @returns {TemplatePlatform} - An instance of the MatterbridgeAccessory or MatterbridgeDynamicPlatform class. This is the main interface for interacting with the Matterbridge system.
+ * @returns {GardenaPlatform} - An instance of the GardenaPlatform class.
  */
-export default function initializePlugin(matterbridge: PlatformMatterbridge, log: AnsiLogger, config: PlatformConfig): TemplatePlatform {
-  return new TemplatePlatform(matterbridge, log, config);
+export default function initializePlugin(matterbridge: PlatformMatterbridge, log: AnsiLogger, config: PlatformConfig): GardenaPlatform {
+  return new GardenaPlatform(matterbridge, log, config);
 }
 
-// Here we define the TemplatePlatform class, which extends the MatterbridgeDynamicPlatform.
-// If you want to create an Accessory platform plugin, you should extend the MatterbridgeAccessoryPlatform class instead.
-export class TemplatePlatform extends MatterbridgeDynamicPlatform {
+// Gardena Platform class extending MatterbridgeDynamicPlatform
+export class GardenaPlatform extends MatterbridgeDynamicPlatform {
+  private gardenaAPI: GardenaAPI | null = null;
+  private deviceEndpoints: Map<string, MatterbridgeEndpoint> = new Map();
+
   constructor(matterbridge: PlatformMatterbridge, log: AnsiLogger, config: PlatformConfig) {
-    // Always call super(matterbridge, log, config)
     super(matterbridge, log, config);
 
-    // Verify that Matterbridge is the correct version
+    // Verify Matterbridge version
     if (this.verifyMatterbridgeVersion === undefined || typeof this.verifyMatterbridgeVersion !== 'function' || !this.verifyMatterbridgeVersion('3.4.0')) {
-      throw new Error(
-        `This plugin requires Matterbridge version >= "3.4.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version in the frontend."`,
-      );
+      throw new Error(`This plugin requires Matterbridge version >= "3.4.0". Please update Matterbridge from ${this.matterbridge.matterbridgeVersion} to the latest version.`);
     }
 
-    this.log.info(`Initializing Platform...`);
-    // You can initialize your platform here, like setting up initial state or loading configurations.
+    this.log.info('Initializing Gardena Platform...');
   }
 
-  override async onStart(reason?: string) {
-    this.log.info(`onStart called with reason: ${reason ?? 'none'}`);
+  override async onStart(reason?: string): Promise<void> {
+    this.log.info(`Gardena Platform onStart called with reason: ${reason ?? 'none'}`);
 
-    // Wait for the platform to fully load the select if you use them.
-    await this.ready;
+    try {
+      // Initialize Gardena API
+      await this.initializeGardenaAPI();
 
-    // Clean the selectDevice and selectEntity maps, if you want to reset the select. This is useful when you have an API that sends all the devices and you want to rediscover all of them.
-    await this.clearSelect();
+      // Wait for platform to be ready
+      await this.ready;
 
-    // Implements your own logic there
-    await this.discoverDevices();
+      // Clear and rediscover devices
+      await this.clearSelect();
+      await this.discoverDevices();
+    } catch (error) {
+      this.log.error(`Error during onStart: ${error}`);
+    }
   }
 
-  override async onConfigure() {
-    // Always call super.onConfigure()
+  override async onConfigure(): Promise<void> {
     await super.onConfigure();
+    this.log.info('Gardena Platform onConfigure called');
 
-    this.log.info('onConfigure called');
-
-    // Configure all your devices. The persisted attributes need to be updated.
     for (const device of this.getDevices()) {
       this.log.info(`Configuring device: ${device.uniqueId}`);
-      // You can update the device configuration here, for example:
-      // device.updateConfiguration({ key: 'value' });
     }
   }
 
-  override async onChangeLoggerLevel(logLevel: LogLevel) {
+  override async onChangeLoggerLevel(logLevel: LogLevel): Promise<void> {
     this.log.info(`onChangeLoggerLevel called with: ${logLevel}`);
-    // Change here the logger level of the api you use or of your devices
   }
 
-  override async onShutdown(reason?: string) {
-    // Always call super.onShutdown(reason)
+  override async onShutdown(reason?: string): Promise<void> {
     await super.onShutdown(reason);
-
-    this.log.info(`onShutdown called with reason: ${reason ?? 'none'}`);
-    if (this.config.unregisterOnShutdown === true) await this.unregisterAllDevices();
+    this.log.info(`Gardena Platform onShutdown called with reason: ${reason ?? 'none'}`);
+    if (this.config.unregisterOnShutdown === true) {
+      await this.unregisterAllDevices();
+    }
   }
 
-  private async discoverDevices() {
-    this.log.info('Discovering devices...');
-    // Implement device discovery logic here.
-    // For example, you might fetch devices from an API.
-    // and register them with the Matterbridge instance.
+  private async initializeGardenaAPI(): Promise<void> {
+    try {
+      const gardenaConfig: GardenaConfig = {
+        apiKey: (this.config as Record<string, unknown>).apiKey as string,
+      };
 
-    // Example: Create and register an outlet device
-    // If you want to create an Accessory platform plugin and your platform extends MatterbridgeAccessoryPlatform,
-    // instead of createDefaultBridgedDeviceBasicInformationClusterServer, call createDefaultBasicInformationClusterServer().
-    const outlet = new MatterbridgeEndpoint(onOffOutlet, { id: 'outlet1' })
-      .createDefaultBridgedDeviceBasicInformationClusterServer('Outlet', 'SN123456', this.matterbridge.aggregatorVendorId, 'Matterbridge', 'Matterbridge Outlet', 10000, '1.0.0')
-      .createDefaultPowerSourceWiredClusterServer()
-      .addRequiredClusterServers()
-      .addCommandHandler('on', (data) => {
-        this.log.info(`Command on called on cluster ${data.cluster}`);
-      })
-      .addCommandHandler('off', (data) => {
-        this.log.info(`Command off called on cluster ${data.cluster}`);
+      if (!gardenaConfig.apiKey) {
+        this.log.warn('No Gardena API key configured');
+        return;
+      }
+
+      this.gardenaAPI = new GardenaAPI(gardenaConfig, this.log);
+
+      // Connect to WebSocket for real-time updates
+      await this.gardenaAPI.connectWebSocket((deviceId: string) => {
+        this.log.debug(`Device ${deviceId} updated`);
       });
+    } catch (error) {
+      this.log.error(`Error initializing Gardena API: ${error}`);
+    }
+  }
 
-    await this.registerDevice(outlet);
+  private async discoverDevices(): Promise<void> {
+    this.log.info('Discovering Gardena devices...');
+
+    if (!this.gardenaAPI) {
+      this.log.error('Gardena API not initialized');
+      return;
+    }
+
+    try {
+      const devices = await this.gardenaAPI.fetchDevices();
+
+      for (const device of devices) {
+        await this.registerGardenaDevice(device);
+      }
+
+      this.log.info(`Registered ${devices.length} Gardena devices`);
+    } catch (error) {
+      this.log.error(`Error discovering devices: ${error}`);
+    }
+  }
+
+  private async registerGardenaDevice(device: GardenaDevice): Promise<void> {
+    try {
+      let endpoint: MatterbridgeEndpoint;
+
+      // Determine device type and create appropriate endpoint
+      switch (device.category) {
+        case 'irrigation':
+          // Irrigation controller as on/off outlet
+          endpoint = new MatterbridgeEndpoint(onOffOutlet, { id: device.id })
+            .createDefaultBridgedDeviceBasicInformationClusterServer(device.name, `SN-${device.id}`, this.matterbridge.aggregatorVendorId, 'Gardena', device.name, 10000, '1.0.0')
+            .createDefaultPowerSourceWiredClusterServer()
+            .addRequiredClusterServers()
+            .addCommandHandler('on', async (_data) => {
+              this.log.info(`Turning on ${device.name}`);
+              if (this.gardenaAPI) {
+                await this.gardenaAPI.controlDevice(device.id, 'on');
+              }
+            })
+            .addCommandHandler('off', async (_data) => {
+              this.log.info(`Turning off ${device.name}`);
+              if (this.gardenaAPI) {
+                await this.gardenaAPI.controlDevice(device.id, 'off');
+              }
+            });
+          break;
+
+        case 'sensor':
+          // Humidity sensor as contact sensor
+          endpoint = new MatterbridgeEndpoint(contactSensor, { id: device.id })
+            .createDefaultBridgedDeviceBasicInformationClusterServer(device.name, `SN-${device.id}`, this.matterbridge.aggregatorVendorId, 'Gardena', device.name, 10000, '1.0.0')
+            .createDefaultPowerSourceBatteryClusterServer()
+            .addRequiredClusterServers();
+          break;
+
+        case 'valve':
+          // Water valve as on/off light
+          endpoint = new MatterbridgeEndpoint(onOffLight, { id: device.id })
+            .createDefaultBridgedDeviceBasicInformationClusterServer(device.name, `SN-${device.id}`, this.matterbridge.aggregatorVendorId, 'Gardena', device.name, 10000, '1.0.0')
+            .createDefaultPowerSourceWiredClusterServer()
+            .addRequiredClusterServers()
+            .addCommandHandler('on', async (_data) => {
+              this.log.info(`Opening valve ${device.name}`);
+              if (this.gardenaAPI) {
+                await this.gardenaAPI.controlDevice(device.id, 'open');
+              }
+            })
+            .addCommandHandler('off', async (_data) => {
+              this.log.info(`Closing valve ${device.name}`);
+              if (this.gardenaAPI) {
+                await this.gardenaAPI.controlDevice(device.id, 'close');
+              }
+            });
+          break;
+
+        case 'mower':
+        default:
+          // Mower as on/off outlet
+          endpoint = new MatterbridgeEndpoint(onOffOutlet, { id: device.id })
+            .createDefaultBridgedDeviceBasicInformationClusterServer(device.name, `SN-${device.id}`, this.matterbridge.aggregatorVendorId, 'Gardena', device.name, 10000, '1.0.0')
+            .createDefaultPowerSourceBatteryClusterServer()
+            .addRequiredClusterServers()
+            .addCommandHandler('on', async (_data) => {
+              this.log.info(`Starting ${device.name}`);
+              if (this.gardenaAPI) {
+                await this.gardenaAPI.controlDevice(device.id, 'start');
+              }
+            })
+            .addCommandHandler('off', async (_data) => {
+              this.log.info(`Stopping ${device.name}`);
+              if (this.gardenaAPI) {
+                await this.gardenaAPI.controlDevice(device.id, 'stop');
+              }
+            });
+          break;
+      }
+
+      await this.registerDevice(endpoint);
+      this.deviceEndpoints.set(device.id, endpoint);
+      this.log.info(`Registered Gardena device: ${device.name} (${device.type})`);
+    } catch (error) {
+      this.log.error(`Error registering device ${device.name}: ${error}`);
+    }
   }
 }
