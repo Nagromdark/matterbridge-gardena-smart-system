@@ -249,6 +249,29 @@ export class GardenaPlatform extends MatterbridgeDynamicPlatform {
     }
   }
 
+  /**
+   * Handle configuration updates from the Matterbridge UI
+   * This allows users to update the API key dynamically without editing config.json
+   *
+   * @param config
+   */
+  override async onConfigChanged(config: PlatformConfig): Promise<void> {
+    this.log.info('Configuration changed from UI');
+
+    const newApiKey = (config as Record<string, unknown>).apiKey as string | undefined;
+    const oldApiKey = (this.config as Record<string, unknown>).apiKey as string | undefined;
+
+    // Update config
+    Object.assign(this.config, config);
+
+    // If API key changed, reinitialize
+    if (newApiKey && newApiKey !== oldApiKey) {
+      this.log.info('API key updated, reinitializing Gardena API...');
+      await this.initializeGardenaAPI();
+      await this.discoverDevices();
+    }
+  }
+
   override async onChangeLoggerLevel(logLevel: LogLevel): Promise<void> {
     this.log.info(`onChangeLoggerLevel called with: ${logLevel}`);
   }
